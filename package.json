@@ -1,0 +1,35 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject",
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "@expo/samples": "2.1.1",
+    "apollo-cache-inmemory": "^1.5.1",
+    "apollo-client": "^2.5.1",
+    "apollo-link-http": "^1.5.14",
+    "cheerio": "^1.0.0-rc.3",
+    "cheerio-without-node-native": "0.20.2",
+    "expo": "^32.0.0",
+    "graphql": "^14.3.0",
+    "graphql-tag": "^2.10.1",
+    "html-react-parser": "^0.7.0",
+    "react": "16.5.0",
+    "react-apollo": "^2.5.5",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-cheerio": "^1.0.0-rc.4",
+    "react-navigation": "^3.0.9"
+  },
+  "devDependencies": {
+    "babel-preset-expo": "^5.0.0",
+    "jest-expo": "^32.0.0"
+  },
+  "private": true
+}
