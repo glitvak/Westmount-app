@@ -4,11 +4,15 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import CalenderScreen from '../screens/CalenderScreen';
+import CalendarScreen from '../screens/CalendarScreen';
 import ContactScreen from '../screens/ContactScreen';
+import ClassesScreen from '../screens/ClassesScreen';
+import ClassScreen from '../screens/ClassScreen';
+import PostScreen from '../screens/PostScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  Post: PostScreen
 });
 
 HomeStack.navigationOptions = {
@@ -25,12 +29,12 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const CalenderStack = createStackNavigator({
-  Links: CalenderScreen,
+const CalendarStack = createStackNavigator({
+  Calendar: CalendarScreen,
 });
 
-CalenderStack.navigationOptions = {
-  tabBarLabel: 'Calender',
+CalendarStack.navigationOptions = {
+  tabBarLabel: 'Calendar',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -40,7 +44,7 @@ CalenderStack.navigationOptions = {
 };
 
 const ContactStack = createStackNavigator({
-  Settings: ContactScreen,
+  Contact: ContactScreen,
 });
 
 ContactStack.navigationOptions = {
@@ -53,8 +57,24 @@ ContactStack.navigationOptions = {
   ),
 };
 
+const ClassesStack = createStackNavigator({
+  Classes: ClassesScreen,
+  Class: ClassScreen
+});
+
+ClassesStack.navigationOptions = {
+  tabBarLabel: 'Classes',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+    focused = {focused}
+    name={Platform.OS === 'ios' ? 'ios-book' : 'md-book'}
+    />
+  ),
+};
+
 export default createBottomTabNavigator({
   HomeStack,
-  CalenderStack,
+  CalendarStack,
+  ClassesStack,
   ContactStack,
 });

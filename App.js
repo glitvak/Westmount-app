@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, ScrollView } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import GeneralStatusBarColor from './components/GeneralStatusBarColor';
@@ -22,7 +22,7 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
-          <GeneralStatusBarColor backgroundColor="black" barStyle="light-content"/>
+          <GeneralStatusBarColor backgroundColor="white" barStyle="dark-content"/>
           <AppNavigator/>
         </View>
       );
