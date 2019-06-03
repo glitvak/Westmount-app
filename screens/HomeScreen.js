@@ -25,7 +25,8 @@ const cheerio = require('react-native-cheerio');
 
 class Posts extends Component {
   state = {
-    blogPost: []
+    blogPost: [],
+    isLoadingComplete: false,
   };
   getPost = async () => {
     const resp = await fetch('http://westmountshul.com/news/');
@@ -44,7 +45,8 @@ class Posts extends Component {
       });
 
       this.setState({
-        blogPost: tempPost
+        blogPost: tempPost,
+        isLoadingComplete: true
       });
       //
     }
@@ -53,20 +55,25 @@ class Posts extends Component {
     }
   }//END OF DATA FUNCTION
 
-  press = () => {
-    console.log('test');
-  }
-
   componentDidMount = () => {
    this.getPost();
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <FlatList data={this.state.blogPost} renderItem={(post) => <Post postData={post.item} navigation={this.props.navigation}/>} keyExtractor={(item, index)=>index.toString()}  ItemSeparatorComponent={()=><View style={{height:0.5,backgroundColor:'#E5E5E5'}}/>}/>
-      </View>
-    );
+    if (this.state.isLoadingComplete) {
+      return (
+        <View style={styles.container}>
+          <FlatList data={this.state.blogPost} renderItem={(post) => <Post postData={post.item} navigation={this.props.navigation}/>} keyExtractor={(item, index)=>index.toString()}  ItemSeparatorComponent={()=><View style={{height:0.5,backgroundColor:'#E5E5E5'}}/>}/>
+        </View>
+      );
+    }
+    else {
+      return(
+        <View style={{flex: 1, justifyContent: "center",}}>
+          <ActivityIndicator size="small" color="#808080"/>
+        </View>
+      );
+    }
   }
 }
 
