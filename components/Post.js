@@ -26,7 +26,8 @@ export default class Post extends React.Component {
           <Text style={styles.getStartedText}> {postData.desc} </Text>
           <Text></Text>
           <Button onPress={() => navigate('Post', {
-            link: postData.link
+            link: postData.link,
+            image: postData.image
           })} title='Learn More.' />
         </View>
       </View>
