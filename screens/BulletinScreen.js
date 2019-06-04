@@ -37,7 +37,14 @@ export default class Bulletin extends React.Component {
     if(this.state.isLoadingComplete) {
       return (
         <View>
-          <PDFView resource={this.state.bulletinUrl} style={styles.pdf}/>
+        <PDFView
+          fadeInDuration={250.0}
+          style={{ flex: 1 }}
+          resource={this.state.bulletinUrl}
+          resourceType={'url'}
+          onLoad={() => console.log(`PDF rendered from`)}
+          onError={() => console.log('Cannot render PDF', error)}
+        />
         </View>
       );
     }
