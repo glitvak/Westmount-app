@@ -1,6 +1,8 @@
 {
+  "name": "WestMountApp",
+  "displayName": "Westmount Shul",
   "expo": {
-    "name": "Westmount Shul",
+    "name": "WestmountShul",
     "slug": "app",
     "privacy": "public",
     "sdkVersion": "32.0.0",

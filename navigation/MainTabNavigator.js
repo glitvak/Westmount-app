@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import CalendarScreen from '../screens/CalendarScreen';
+import BulletinScreen from '../screens/BulletinScreen';
 import ContactScreen from '../screens/ContactScreen';
 import ClassesScreen from '../screens/ClassesScreen';
 import ClassScreen from '../screens/ClassScreen';
@@ -29,16 +29,16 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const CalendarStack = createStackNavigator({
-  Calendar: CalendarScreen,
+const BulletinStack = createStackNavigator({
+  Bulletin: BulletinScreen,
 });
 
-CalendarStack.navigationOptions = {
-  tabBarLabel: 'Calendar',
+BulletinStack.navigationOptions = {
+  tabBarLabel: 'Bulletin',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'}
+      name={Platform.OS === 'ios' ? 'ios-document' : 'md-document'}
     />
   ),
 };
@@ -74,7 +74,7 @@ ClassesStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
-  CalendarStack,
+  BulletinStack,
   ClassesStack,
   ContactStack,
 });

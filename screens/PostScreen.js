@@ -27,7 +27,6 @@ export default class PostScreen extends React.Component {
     isLoadingComplete: false,
   };
   getPostData = async (data) => {
-    console.log(data);
     const resp = await fetch(data);
     try {
       const $ = cheerio.load(resp._bodyInit);
@@ -65,9 +64,7 @@ export default class PostScreen extends React.Component {
   }
 
   render() {
-    //<ThisHeader navigation={this.props.navigation}/>
     const {navigation} = this.props;
-    console.log(this.state.post.desc);
     const image = this.props.navigation.getParam('image', 'error');
     if(this.state.isLoadingComplete){
       return (
