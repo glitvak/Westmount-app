@@ -1,19 +1,21 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import {View, ScrollView, StyleSheet, Text, ActivityIndicator } from 'react-native';
+import Header from '../components/MainHeader';
 
 export default class Classes extends React.Component {
   static navigationOptions = {
-    title: 'Classes',
+    header: <Header/>,
   };
+  state = {
+    isLoadingComplete: false
+  }
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-        {/* Go ahead and delete ExpoLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */}
-        <ExpoLinksView />
-      </ScrollView>
+      <View>
+        <ScrollView style={styles.container}>
+        </ScrollView>
+      </View>
     );
   }
 }

@@ -17,8 +17,7 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import Post from '../components/Post'
 import Header from '../components/MainHeader';
-import {createStackNavigator} from 'react-navigation';
-import ClassScreen from './ClassScreen';
+import Loading from '../components/Loading';
 const { width } = Dimensions.get('window');
 const height = width * 0.8;
 const cheerio = require('react-native-cheerio');
@@ -69,9 +68,7 @@ class Posts extends Component {
     }
     else {
       return(
-        <View style={{flex: 1, justifyContent: "center",}}>
-          <ActivityIndicator size="small" color="#808080"/>
-        </View>
+        <Loading/>
       );
     }
   }

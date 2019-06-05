@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, ScrollView, ActivityIndicator, StyleSheet,} from 'react-native';
 import Header from '../components/MainHeader';
+import Loading from '../components/Loading';
 const cheerio = require('react-native-cheerio');
 import { MonoText } from '../components/StyledText';
 
@@ -50,7 +51,7 @@ export default class ContactScreen extends React.Component {
     }
   }
 
-  dataScrape = ($,id)=>{
+  dataScrape = ($,id) => {
     let data = '';
     $(id).find('p').each((i, post)=>{
         data += $(post).text().trim() + '\n';
@@ -74,9 +75,7 @@ export default class ContactScreen extends React.Component {
       );
     }
     return (
-      <View style={{ paddingTop: '5%',justifyContent: "center",}}>
-        <ActivityIndicator size="small" color="#808080"/>
-      </View>
+      <Loading/>
     );
   }
 }

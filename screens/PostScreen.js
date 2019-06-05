@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-  ActivityIndicator,
   Button,
   Image,
   Platform,
@@ -15,6 +14,7 @@ import {
 } from 'react-native';
 import { MonoText } from '../components/StyledText';
 import ThisHeader from '../components/SubHeader';
+import Loading from '../components/Loading';
 const cheerio = require('react-native-cheerio');
 
 export default class PostScreen extends React.Component {
@@ -82,9 +82,7 @@ export default class PostScreen extends React.Component {
       return (
           <View>
             <ThisHeader navigation={this.props.navigation}/>
-            <View style={{ paddingTop: '5%',justifyContent: "center",}}>
-              <ActivityIndicator size="small" color="#808080"/>
-            </View>
+            <Loading/>
           </View>
       );
     }
