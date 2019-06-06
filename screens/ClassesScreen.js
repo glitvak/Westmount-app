@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, ScrollView, StyleSheet, Text, ActivityIndicator } from 'react-native';
-import Header from '../components/MainHeader';
+import ThisHeader from '../components/MenuHeader';
 
-export default class Classes extends React.Component {
+export default class ClassesScreen extends React.Component {
   static navigationOptions = {
-    header: <Header/>,
+    header: null,
   };
   state = {
     isLoadingComplete: false
@@ -13,6 +13,7 @@ export default class Classes extends React.Component {
   render() {
     return (
       <View>
+        <ThisHeader navigation={this.props.navigation}/>
         <ScrollView style={styles.container}>
         </ScrollView>
       </View>

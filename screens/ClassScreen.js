@@ -15,7 +15,6 @@ import {
 } from 'react-native';
 import { MonoText } from '../components/StyledText';
 import ThisHeader from '../components/SubHeader';
-import {createStackNavigator} from 'react-navigation';
 
 export default class ClassScreen extends React.Component {
 
