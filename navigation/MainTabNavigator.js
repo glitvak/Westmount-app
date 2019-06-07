@@ -58,8 +58,39 @@ ContactStack.navigationOptions = {
 };
 
 const ClassesDrawer = createDrawerNavigator({
-  Classes: ClassesScreen,
-  Class: ClassScreen
+  Classes_Home: {
+    screen: ClassesScreen,
+    navigationOptions: {
+      drawerLabel: 'Classes Home'
+    }
+  },
+  Class: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Bible / Chumash',
+    },
+    params: {
+      name: 'Bible'
+    }
+  },
+  Class2: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Bilavi Series'
+    },
+    params: {
+      name: 'Bilavi'
+    }
+  },
+  Class3: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Chasidus'
+    },
+    params: {
+      name: 'Chasidus'
+    }
+  }
 });
 
 ClassesDrawer.navigationOptions = {

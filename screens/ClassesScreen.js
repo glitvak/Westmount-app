@@ -4,7 +4,7 @@ import ThisHeader from '../components/MenuHeader';
 
 export default class ClassesScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
   state = {
     isLoadingComplete: false
