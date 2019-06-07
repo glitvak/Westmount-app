@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     shadowOffset: {
-      width: 2
+      width: -5
     },
   },
   bar: {

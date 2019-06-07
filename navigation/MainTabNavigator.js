@@ -70,7 +70,8 @@ const ClassesDrawer = createDrawerNavigator({
       drawerLabel: 'Bible / Chumash',
     },
     params: {
-      name: 'Bible'
+      name: 'Bible',
+      link: 'http://westmountshul.com/online-learning/audio-archive/bible-chumash/'
     }
   },
   Class2: {
@@ -79,7 +80,8 @@ const ClassesDrawer = createDrawerNavigator({
       drawerLabel: 'Bilavi Series'
     },
     params: {
-      name: 'Bilavi'
+      name: 'Bilavi',
+      link: ''
     }
   },
   Class3: {
@@ -88,7 +90,8 @@ const ClassesDrawer = createDrawerNavigator({
       drawerLabel: 'Chasidus'
     },
     params: {
-      name: 'Chasidus'
+      name: 'Chasidus',
+      link: ''
     }
   }
 });
