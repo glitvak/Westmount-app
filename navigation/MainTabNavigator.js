@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, createDrawerNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -57,9 +57,17 @@ ContactStack.navigationOptions = {
   ),
 };
 
-const ClassesStack = createStackNavigator({
+const ClassesDrawer = createDrawerNavigator({
   Classes: ClassesScreen,
   Class: ClassScreen
+});
+
+ClassesDrawer.navigationOptions = {
+  header: null
+}
+
+const ClassesStack = createStackNavigator({
+  Classes: ClassesDrawer
 });
 
 ClassesStack.navigationOptions = {
