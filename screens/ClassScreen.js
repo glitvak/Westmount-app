@@ -12,10 +12,12 @@ import {
   View,
   Dimensions,
   FlatList,
+  Picker,
 } from 'react-native';
 import { MonoText } from '../components/StyledText';
 import ThisHeader from '../components/MenuHeader';
 import Loading from '../components/Loading';
+import TabBarIcon from '../components/TabBarIcon';
 const cheerio = require('react-native-cheerio');
 
 export default class ClassScreen extends React.Component {
@@ -60,7 +62,18 @@ export default class ClassScreen extends React.Component {
       return (
         <View>
           <ThisHeader navigation={this.props.navigation}/>
-          <Text>{this.state.classList[0].title}</Text>
+          <View style={styles.container}>
+            <Picker style={styles.pickerStyle}
+                  selectedValue={this.state.classList[0].title}
+                  onValueChange={(itemValue, itemPosition) => <Text>{this.state.classList[itemPosition].title}</Text>}
+              >
+              {
+                this.state.classList.map((param,i) =>{
+                  <Picker.Item label={param.title} value={param.title} />
+                })
+              }
+            </Picker>
+          </View>
         </View>
       );
     }
@@ -74,3 +87,17 @@ export default class ClassScreen extends React.Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pickerStyle:{
+    height: 150,
+    width: "80%",
+    color: '#344953',
+    justifyContent: 'center',
+  }
+});
