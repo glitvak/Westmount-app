@@ -1,9 +1,14 @@
 import React from 'react';
-import {View, Text, ScrollView, ActivityIndicator, StyleSheet,} from 'react-native';
+import {View, Text, ScrollView, ActivityIndicator, StyleSheet, Dimensions} from 'react-native';
 import Header from '../components/MainHeader';
 import Loading from '../components/Loading';
 const cheerio = require('react-native-cheerio');
 import { MonoText } from '../components/StyledText';
+import { MapView } from 'expo';
+const window = Dimensions.get('window');
+const { width, height }  = window
+const LATITUDE_DELTA = 0.0022
+const LONGITUDE_DELTA = LATITUDE_DELTA + (width / height)
 
 
 export default class ContactScreen extends React.Component {
@@ -66,12 +71,31 @@ export default class ContactScreen extends React.Component {
   render() {
     if (this.state.isLoadingComplete) {
       return (
-        <View style={styles.container}>
-          <Text style={styles.title}>{this.state.contactInfo.contactUs.title}</Text>
-          <Text style = {styles.paragraph}>{this.state.contactInfo.contactUs.data}</Text>
-          <Text style={styles.title}>{this.state.contactInfo.minyanTime.title}</Text>
-          <Text style={styles.paragraph}>{this.state.contactInfo.minyanTime.data}</Text>
-        </View>
+        <ScrollView contentContainerStyle={{ flex: 1 }}>
+          <View style={styles.container}>
+            <Text style={styles.title}>{this.state.contactInfo.contactUs.title}</Text>
+            <Text style = {styles.paragraph}>{this.state.contactInfo.contactUs.data}</Text>
+            <Text style={styles.title}>{this.state.contactInfo.minyanTime.title}</Text>
+            <Text style={styles.paragraph}>{this.state.contactInfo.minyanTime.data}</Text>
+
+            <MapView
+              style={{ flex: 1}}
+              initialRegion={{
+                latitude: 43.810420,
+                longitude: -79.454150,
+                latitudeDelta: 0.0022,
+                longitudeDelta: 0.0033,
+              }}
+              annotations={{latitude: 43.810420, longitude: -79.454150}}
+              scrollEnabled={false}
+              loadingEnabled={true}
+            >
+            <MapView.Marker
+              coordinate={{latitude: 43.810420, longitude: -79.454150}}
+            />
+            </MapView>
+          </View>
+        </ScrollView>
       );
     }
     return (
@@ -83,6 +107,7 @@ export default class ContactScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'relative',
     backgroundColor: '#fff',
     paddingHorizontal: '3%'
   },
