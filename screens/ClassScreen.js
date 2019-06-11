@@ -12,7 +12,6 @@ import {
   View,
   Dimensions,
   FlatList,
-  Picker,
 } from 'react-native';
 import { MonoText } from '../components/StyledText';
 import ThisHeader from '../components/MenuHeader';
@@ -27,6 +26,7 @@ export default class ClassScreen extends React.Component {
   };
   state = {
     classList: [],
+    currentClass: '',
     isLoadingComplete: false
   }
 
@@ -44,6 +44,7 @@ export default class ClassScreen extends React.Component {
 
       this.setState({
         classList: tempClass,
+        currentClass: '',
         isLoadingComplete: true
       });
     }
@@ -57,25 +58,39 @@ export default class ClassScreen extends React.Component {
     this.getClassList();
   }
 
+  getButtons = () =>{
+    this.state.classList.map((x)=>{
+      <Button onPress={(x)=> this.buttonPress(x)} title={x.title}/>
+    })
+  };
+
+  buttonPress = (classInfo) =>{
+    this.setState({
+      classList: this.state.classList,
+      currentClass: classInfo.title,
+      isLoadingComplete: true
+    });
+  };
+
   render() {
     if (this.state.isLoadingComplete) {
-      return (
-        <View>
-          <ThisHeader navigation={this.props.navigation}/>
-          <View style={styles.container}>
-            <Picker style={styles.pickerStyle}
-                  selectedValue={this.state.classList[0].title}
-                  onValueChange={(itemValue, itemPosition) => <Text>{this.state.classList[itemPosition].title}</Text>}
-              >
-              {
-                this.state.classList.map((param,i) =>{
-                  <Picker.Item label={param.title} value={param.title} />
-                })
-              }
-            </Picker>
+      if (this.state.currentClass=='') {
+        return(
+          <View>
+            <ThisHeader navigation={this.props.navigation}/>
+            <View style={styles.container}>
+              {this.getButtons()}
+            </View>
           </View>
-        </View>
-      );
+        );
+      }
+      else {
+        return (
+          <View>
+            <Text>Works!</Text>
+          </View>
+        );
+      }
     }
     else {
       return(
