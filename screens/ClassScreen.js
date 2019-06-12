@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
   ActivityIndicator,
-  Button,
   Image,
   Platform,
   ScrollView,
@@ -14,6 +13,7 @@ import {
   FlatList,
 } from 'react-native';
 import { MonoText } from '../components/StyledText';
+import {Button} from 'react-native-elements';
 import ThisHeader from '../components/MenuHeader';
 import Loading from '../components/Loading';
 import TabBarIcon from '../components/TabBarIcon';
@@ -44,7 +44,7 @@ export default class ClassScreen extends React.Component {
 
       this.setState({
         classList: tempClass,
-        currentClass: '',
+        currentClass: null,
         isLoadingComplete: true
       });
     }
@@ -54,15 +54,19 @@ export default class ClassScreen extends React.Component {
     }
   }
 
+  renderButtons() {
+    console.log(this.state.classList[0].title)
+    return this.state.classList.map((item,i) => {
+      return(
+              <Text key={i}> {item.title} </Text>
+          );
+    });
+}
+
   componentDidMount(){
     this.getClassList();
   }
 
-  getButtons = () =>{
-    this.state.classList.map((x)=>{
-      <Button onPress={(x)=> this.buttonPress(x)} title={x.title}/>
-    })
-  };
 
   buttonPress = (classInfo) =>{
     this.setState({
@@ -74,12 +78,12 @@ export default class ClassScreen extends React.Component {
 
   render() {
     if (this.state.isLoadingComplete) {
-      if (this.state.currentClass=='') {
+      if (this.state.currentClass==null) {
         return(
           <View>
             <ThisHeader navigation={this.props.navigation}/>
             <View style={styles.container}>
-              {this.getButtons()}
+              {this.renderButtons()}
             </View>
           </View>
         );
