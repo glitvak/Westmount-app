@@ -26,7 +26,7 @@ export default class ClassScreen extends React.Component {
   };
   state = {
     classList: [],
-    currentClass: '',
+    currentClass: 'no class',
     isLoadingComplete: false
   }
 
@@ -37,14 +37,14 @@ export default class ClassScreen extends React.Component {
       const $ = cheerio.load(resp._bodyInit);
       let tempClass = [];
       $('.ccchildpage').each((i,post) => {
-        tempClass.push({
-          title:$(post).find('h3').text().replace(/\s\s+/g, '').trim(),
-        })
+        tempClass.push(
+          $(post).find('h3').text().replace(/\s\s+/g, '').trim(),
+        )
       });
 
       this.setState({
         classList: tempClass,
-        currentClass: null,
+        currentClass: this.state.currentClass,
         isLoadingComplete: true
       });
     }
@@ -53,15 +53,6 @@ export default class ClassScreen extends React.Component {
       alert('Error: Cannot connect to server!');
     }
   }
-
-  renderButtons() {
-    console.log(this.state.classList[0].title)
-    return this.state.classList.map((item,i) => {
-      return(
-              <Text key={i}> {item.title} </Text>
-          );
-    });
-}
 
   componentDidMount(){
     this.getClassList();
@@ -78,23 +69,14 @@ export default class ClassScreen extends React.Component {
 
   render() {
     if (this.state.isLoadingComplete) {
-      if (this.state.currentClass==null) {
-        return(
-          <View>
-            <ThisHeader navigation={this.props.navigation}/>
-            <View style={styles.container}>
-              {this.renderButtons()}
-            </View>
+      console.log(this.state.classList);
+      return(
+        <View>
+          <ThisHeader navigation={this.props.navigation}/>
+          <View style={styles.container}>
           </View>
-        );
-      }
-      else {
-        return (
-          <View>
-            <Text>Works!</Text>
-          </View>
-        );
-      }
+        </View>
+      );
     }
     else {
       return(
