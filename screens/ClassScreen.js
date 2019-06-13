@@ -37,9 +37,10 @@ export default class ClassScreen extends React.Component {
       const $ = cheerio.load(resp._bodyInit);
       let tempClass = [];
       $('.ccchildpage').each((i,post) => {
-        tempClass.push(
-          $(post).find('h3').text().replace(/\s\s+/g, '').trim(),
-        )
+        tempClass.push({
+          title: $(post).find('h3').text().replace(/\s\s+/g, '').trim(),
+          link: $(post).find('a.ccpage_title_link').attr('href')
+        })
       });
 
       this.setState({
@@ -64,14 +65,43 @@ export default class ClassScreen extends React.Component {
         <View key={i} style={{paddingBottom:'2%'}}>
           <Button onPress={()=> this.setState({
             classList: this.state.classList,
-            currentClass: 'done',
-            isLoadingComplete: true
-          })} title={data}/>
+            currentClass: this.loadClass(data.link),
+            isLoadingComplete: false
+          })} title={data.title}/>
         </View>
       );
     })
+  }
 
-}
+  loadClass = async(link)=>{
+    const resp = await fetch(link);
+    try{
+      let thisClass = {};
+      var $ = cheerio.load(resp._bodyInit);
+      thisClass.title = $('h1.entry-title').text().replace(/\s\s+/g, '').trim();
+      thisClass.desc = $('span.tablepress-table-description').text().replace(/\s\s+/g, '').trim();
+      thisClass.classes = [];
+      let x = 0;
+      $('tbody').find('tr').each((i,post)=>{
+        if (x<5 && $(post).find('td.column-2').text()!='') {
+          x++;
+          thisClass.classes.push({
+            title: $(post).text().replace(/\s\s+/g, '').trim(),
+            link: $(post).find('td.column-2 a').attr('href')
+          })
+        }
+      });
+      this.setState({
+        classList: this.state.ClassList,
+        currentClass: thisClass,
+        isLoadingComplete: true
+      });
+    }
+    catch(e){
+      console.log(e);
+      alert('Error connecting to server!');
+    }
+  }
 
   render() {
     if (this.state.isLoadingComplete) {
@@ -92,7 +122,15 @@ export default class ClassScreen extends React.Component {
           <View style={styles.container}>
             <ThisHeader navigation={this.props.navigation}/>
             <View>
-              <Text>works!</Text>
+              <ScrollView>
+                <Text>{this.state.currentClass.title}</Text>
+                <Text>{this.state.currentClass.desc}</Text>
+                <Button onPress={()=>this.setState({
+                  classList: this.state.classList,
+                  currentClass: 'no class',
+                  isLoadingComplete: true
+                })} title={'Go Back'}/>
+              </ScrollView>
             </View>
           </View>
         );
