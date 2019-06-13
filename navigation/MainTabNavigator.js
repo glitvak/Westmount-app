@@ -81,7 +81,7 @@ const ClassesDrawer = createDrawerNavigator({
     },
     params: {
       name: 'Bilavi',
-      link: ''
+      link: 'http://westmountshul.com/online-learning/audio-archive/bilvavi/'
     }
   },
   Class3: {

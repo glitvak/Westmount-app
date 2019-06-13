@@ -58,25 +58,45 @@ export default class ClassScreen extends React.Component {
     this.getClassList();
   }
 
+  buttonList() {
+    return this.state.classList.map((data,i) => {
+      return (
+        <View key={i} style={{paddingBottom:'2%'}}>
+          <Button onPress={()=> this.setState({
+            classList: this.state.classList,
+            currentClass: 'done',
+            isLoadingComplete: true
+          })} title={data}/>
+        </View>
+      );
+    })
 
-  buttonPress = (classInfo) =>{
-    this.setState({
-      classList: this.state.classList,
-      currentClass: classInfo.title,
-      isLoadingComplete: true
-    });
-  };
+}
 
   render() {
     if (this.state.isLoadingComplete) {
-      console.log(this.state.classList);
-      return(
-        <View>
-          <ThisHeader navigation={this.props.navigation}/>
+      if (this.state.currentClass == 'no class') {
+        return(
           <View style={styles.container}>
+            <ThisHeader navigation={this.props.navigation}/>
+            <View>
+            {
+              this.buttonList()
+            }
+            </View>
           </View>
-        </View>
-      );
+        );
+      }
+      else {
+        return(
+          <View style={styles.container}>
+            <ThisHeader navigation={this.props.navigation}/>
+            <View>
+              <Text>works!</Text>
+            </View>
+          </View>
+        );
+      }
     }
     else {
       return(
@@ -92,13 +112,17 @@ export default class ClassScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   pickerStyle:{
     height: 150,
     width: "80%",
     color: '#344953',
     justifyContent: 'center',
+  },
+  txt: {
+    fontSize: 14,
+    marginTop: '2%',
+    color: '#666',
+    paddingHorizontal: '2%'
   }
 });
