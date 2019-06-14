@@ -92,7 +92,7 @@ export default class ClassScreen extends React.Component {
         }
       });
       this.setState({
-        classList: this.state.ClassList,
+        classList: this.state.classList,
         currentClass: thisClass,
         isLoadingComplete: true
       });
@@ -109,11 +109,13 @@ export default class ClassScreen extends React.Component {
         return(
           <View style={styles.container}>
             <ThisHeader navigation={this.props.navigation}/>
-            <View>
-            {
-              this.buttonList()
-            }
-            </View>
+            <ScrollView>
+              <View>
+              {
+                this.buttonList()
+              }
+              </View>
+            </ScrollView>
           </View>
         );
       }
