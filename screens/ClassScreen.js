@@ -13,7 +13,7 @@ import {
   FlatList,
 } from 'react-native';
 import { MonoText } from '../components/StyledText';
-import {Button} from 'react-native-elements';
+import {Button, ListItem} from 'react-native-elements';
 import ThisHeader from '../components/MenuHeader';
 import Loading from '../components/Loading';
 import TabBarIcon from '../components/TabBarIcon';
@@ -22,7 +22,6 @@ const cheerio = require('react-native-cheerio');
 export default class ClassScreen extends React.Component {
   static navigationOptions = {
     header: null,
-    TabBarVisible: false,
   };
   state = {
     classList: [],
@@ -73,6 +72,18 @@ export default class ClassScreen extends React.Component {
     })
   }
 
+  renderClassList(){
+    return this.state.currentClass.classes.map((item, i) => {
+      return(
+        <View key={i}>
+          <ListItem title={item.title} onPress={()=>console.log('press')} rightIcon={<TabBarIcon name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
+          />}
+          titleStyle={{fontSize:14}} bottomDivider={true} topDivider={true}/>
+        </View>
+      );
+    })
+  }
+
   loadClass = async(link)=>{
     const resp = await fetch(link);
     try{
@@ -110,7 +121,7 @@ export default class ClassScreen extends React.Component {
           <View style={styles.container}>
             <ThisHeader navigation={this.props.navigation}/>
             <ScrollView>
-              <View>
+              <View style={styles.container}>
               {
                 this.buttonList()
               }
@@ -124,9 +135,12 @@ export default class ClassScreen extends React.Component {
           <View style={styles.container}>
             <ThisHeader navigation={this.props.navigation}/>
             <View>
-              <ScrollView>
-                <Text>{this.state.currentClass.title}</Text>
-                <Text>{this.state.currentClass.desc}</Text>
+              <ScrollView contentContainerStyle={{justifyContent: 'space-between'}}>
+                <Text style={styles.title}>{this.state.currentClass.title}</Text>
+                <Text style={styles.txt}>{this.state.currentClass.desc}</Text>
+                {
+                  this.renderClassList()
+                }
                 <Button onPress={()=>this.setState({
                   classList: this.state.classList,
                   currentClass: 'no class',
@@ -152,12 +166,24 @@ export default class ClassScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginBottom: '13%'
+  },
+  contentContainer: {
+    flex: 1,
+    height: 100
   },
   pickerStyle:{
     height: 150,
     width: "80%",
     color: '#344953',
     justifyContent: 'center',
+  },
+  title:{
+    fontSize: 19,
+    color: '#4E443C',
+    lineHeight: 24,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   txt: {
     fontSize: 14,
