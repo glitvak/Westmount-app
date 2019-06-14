@@ -9,6 +9,7 @@ import ContactScreen from '../screens/ContactScreen';
 import ClassesScreen from '../screens/ClassesScreen';
 import ClassScreen from '../screens/ClassScreen';
 import PostScreen from '../screens/PostScreen';
+import PlayerScreen from '../screens/PlayerScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -101,7 +102,8 @@ ClassesDrawer.navigationOptions = {
 }
 
 const ClassesStack = createStackNavigator({
-  Classes: ClassesDrawer
+  Classes: ClassesDrawer,
+  Player: PlayerScreen
 });
 
 ClassesStack.navigationOptions = {
