@@ -11128,13 +11128,6 @@ react-native-cheerio@^1.0.0-rc.4:
     lodash "^4.15.0"
     react-native-parse-html "^2.2.6"
 
-react-native-dropdown-menu@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-dropdown-menu/-/react-native-dropdown-menu-2.0.0.tgz#1d9e6614dc3799b79e3151f8a54fb2d83c7d899f"
-  integrity sha1-HZ5mFNw3mbeeMVH4pU+y2Dx9iZ8=
-  dependencies:
-    prop-types "^15.6.1"
-
 react-native-elements@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-1.1.0.tgz#f99bcda4459a886f3ab4591c684c099d37aedf2b"
@@ -11237,6 +11230,11 @@ react-native-screens@1.0.0-alpha.22, "react-native-screens@^1.0.0 || ^1.0.0-alph
   version "1.0.0-alpha.22"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-1.0.0-alpha.22.tgz#7a120377b52aa9bbb94d0b8541a014026be9289b"
   integrity sha512-kSyAt0AeVU6N7ZonfV6dP6iZF8B7Bce+tk3eujXhzBGsLg0VSLnU7uE9VqJF0xdQrHR91ZjGgVMieo/8df9KTA==
+
+react-native-sound-player@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-sound-player/-/react-native-sound-player-0.9.0.tgz#ab63bda0e9fc59e8df5e66d25d0d5bab1952e93b"
+  integrity sha512-gOOfv5d7acHksfW6LMUuZxdk3pWXor/ImQFlRauOwxn+SaSPM59taFDj4P8zVRN0RZoHxWX8rpGbnxMFDPY0TQ==
 
 react-native-status-bar-height@^2.2.0:
   version "2.3.1"

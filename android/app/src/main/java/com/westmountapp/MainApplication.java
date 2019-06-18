@@ -3,6 +3,8 @@ package com.westmountapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.johnsonsu.rnsoundplayer.RNSoundPlayerPackage;
+import com.zmxv.RNSound.RNSoundPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.rumax.reactnative.pdfviewer.PDFViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -27,6 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSoundPlayerPackage(),
+            new RNSoundPackage(),
             new RNFetchBlobPackage(),
             new PDFViewPackage(),
             new RNFetchBlobPackage(),
