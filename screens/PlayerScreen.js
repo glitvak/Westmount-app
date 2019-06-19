@@ -3,6 +3,7 @@ import {View, Text, ScrollView, ActivityIndicator, StyleSheet, Dimensions,Button
 import { MonoText } from '../components/StyledText';
 import Header from '../components/SubHeader';
 import { Slider } from 'react-native-elements';
+import Loading from '../components/Loading';
 import { Audio } from 'expo';
 
 export default class PlayerScreen extends React.Component {
@@ -10,9 +11,11 @@ export default class PlayerScreen extends React.Component {
     header: null,
     TabBarVisible: false,
   };
+  fullTime = 0;
+  currentTime = 0;
   state ={
     classAudio: null,
-    isPlaying: false,
+    duration: 0,
     isLoadingComplete: false
   }
 
@@ -29,16 +32,32 @@ export default class PlayerScreen extends React.Component {
     soundObject.loadAsync({uri: 'http://westmountshul.com/wp-content/uploads/Parsha-June-11-2019.mp3'});
     this.setState({
       classAudio: soundObject,
-      isPlaying: false,
-      isLoadingComplete: true
+      duration: 0,
+      isLoadingComplete: false
     })
+    soundObject.setOnPlaybackStatusUpdate(this.handlePlaybackUpdate);
+  }
+
+  handlePlaybackUpdate = status =>{
+    if (status.isLoaded) {
+      console.log(status.durationMillis);
+      this.setState({
+        classAudio: this.state.classAudio,
+        duration: status.durationMillis,
+        isLoadingComplete: true
+      });
+    }
+    else {
+      if (status.error) {
+        console.log(status.error);
+      }
+    }
   }
 
   async play(){
     try {
       await this.state.classAudio.playAsync();
       // Your sound is playing!
-      console.log(this.state.classAudio.PlaybackStatusToSet)
     } catch (error) {
       console.log(error);
     }
@@ -53,6 +72,22 @@ export default class PlayerScreen extends React.Component {
     }
   }
 
+  async checkPlay(){
+
+  }
+
+  timeFormat(duration) {
+    var milliseconds = parseInt((duration % 1000) / 100),
+    seconds = Math.floor((duration / 1000) % 60),
+    minutes = Math.floor((duration / (1000 * 60)) % 60),
+    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    return hours + ":" + minutes + ":" + seconds;
+  }
+
   render(){
     if (this.state.isLoadingComplete) {
       return (
@@ -62,6 +97,8 @@ export default class PlayerScreen extends React.Component {
             <Text>Testing Player Screen</Text>
             <Button onPress={()=>this.play()} title={'test sound'}/>
             <Button onPress={()=>this.stop()} title={'Stop sound'}/>
+            <Slider value={this.state.value} onValueChange={value => this.setState({ value })} />
+            <Text>{this.timeFormat(this.state.duration)}</Text>
           </View>
         </View>
       );
@@ -71,7 +108,7 @@ export default class PlayerScreen extends React.Component {
         <View style={styles.container}>
           <Header navigation={this.props.navigation}/>
           <View>
-          <Text>Loading!</Text>
+            <Loading/>
           </View>
         </View>
       );
