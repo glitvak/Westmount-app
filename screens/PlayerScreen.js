@@ -11,7 +11,6 @@ export default class PlayerScreen extends React.Component {
     header: null,
     TabBarVisible: false,
   };
-  fullTime = 0;
   currentTime = 0;
   state ={
     classAudio: null,
@@ -40,7 +39,6 @@ export default class PlayerScreen extends React.Component {
 
   handlePlaybackUpdate = status =>{
     if (status.isLoaded) {
-      console.log(status.durationMillis);
       this.setState({
         classAudio: this.state.classAudio,
         duration: status.durationMillis,
@@ -97,7 +95,10 @@ export default class PlayerScreen extends React.Component {
             <Text>Testing Player Screen</Text>
             <Button onPress={()=>this.play()} title={'test sound'}/>
             <Button onPress={()=>this.stop()} title={'Stop sound'}/>
-            <Slider value={this.state.value} onValueChange={value => this.setState({ value })} />
+            <View>
+              <Text>{this.timeFormat(this.currentTime)}</Text>
+              <Slider style={{width: 300, height: 30, borderRadius: 50}} value={this.currentTime} maximumValue={this.state.duration} onValueChange={value => {this.state.classAudio.setPositionAsync(Math.floor(value)); this.currentTime = Math.floor(value)}} />
+            </View>
             <Text>{this.timeFormat(this.state.duration)}</Text>
           </View>
         </View>
