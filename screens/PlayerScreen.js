@@ -1,20 +1,22 @@
 import React from 'react';
-import {View, Text, ScrollView, ActivityIndicator, StyleSheet, Dimensions,Button} from 'react-native';
+import {View, Text, ScrollView, ActivityIndicator, StyleSheet, Dimensions, Button, Platform, TouchableOpacity} from 'react-native';
 import { MonoText } from '../components/StyledText';
 import Header from '../components/SubHeader';
 import { Slider } from 'react-native-elements';
 import Loading from '../components/Loading';
 import { Audio } from 'expo';
+import TabBarIcon from '../components/TabBarIcon';
 
 export default class PlayerScreen extends React.Component {
   static navigationOptions = {
     header: null,
     TabBarVisible: false,
   };
-  currentTime = 0;
   state ={
     classAudio: null,
     duration: 0,
+    currentTime: 0,
+    isPlaying: false,
     isLoadingComplete: false
   }
 
@@ -28,13 +30,25 @@ export default class PlayerScreen extends React.Component {
       playThroughEarpieceAndroid: false,
     });
     const soundObject = new Audio.Sound();
-    soundObject.loadAsync({uri: 'http://westmountshul.com/wp-content/uploads/Parsha-June-11-2019.mp3'});
-    this.setState({
-      classAudio: soundObject,
-      duration: 0,
-      isLoadingComplete: false
-    })
-    soundObject.setOnPlaybackStatusUpdate(this.handlePlaybackUpdate);
+    try{
+      soundObject.loadAsync({uri: this.props.navigation.getParam('uri','error')});
+      this.setState({
+        classAudio: soundObject,
+        duration: 0,
+        currentTime: 0,
+        isPlaying: false,
+        isLoadingComplete: false
+      })
+      soundObject.setOnPlaybackStatusUpdate(this.handlePlaybackUpdate);
+    }
+    catch(e){
+      alert('Error connecting to server.');
+      console.log(e);
+    }
+  }
+
+  ComponentWillUnmount(){
+    this.state.classAudio.setStatusAsync({ shouldPlay: false, positionMillis: 0 });
   }
 
   handlePlaybackUpdate = status =>{
@@ -42,6 +56,8 @@ export default class PlayerScreen extends React.Component {
       this.setState({
         classAudio: this.state.classAudio,
         duration: status.durationMillis,
+        currentTime: status.positionMillis,
+        isPlaying: status.isPlaying,
         isLoadingComplete: true
       });
     }
@@ -71,10 +87,18 @@ export default class PlayerScreen extends React.Component {
   }
 
   async checkPlay(){
-
+    if (this.state.isPlaying) {
+      this.stop();
+    }
+    else{
+      this.play();
+    }
   }
 
   timeFormat(duration) {
+    if (duration == null) {
+      return "00:00:00";
+    }
     var milliseconds = parseInt((duration % 1000) / 100),
     seconds = Math.floor((duration / 1000) % 60),
     minutes = Math.floor((duration / (1000 * 60)) % 60),
@@ -87,19 +111,37 @@ export default class PlayerScreen extends React.Component {
   }
 
   render(){
+    // <Button onPress={()=>this.play()} title={'test sound'}/>
+    // <Button onPress={()=>this.stop()} title={'Stop sound'}/>
     if (this.state.isLoadingComplete) {
       return (
         <View style={styles.container}>
           <Header navigation={this.props.navigation}/>
           <View>
             <Text>Testing Player Screen</Text>
-            <Button onPress={()=>this.play()} title={'test sound'}/>
-            <Button onPress={()=>this.stop()} title={'Stop sound'}/>
-            <View>
-              <Text>{this.timeFormat(this.currentTime)}</Text>
-              <Slider style={{width: 300, height: 30, borderRadius: 50}} value={this.currentTime} maximumValue={this.state.duration} onValueChange={value => {this.state.classAudio.setPositionAsync(Math.floor(value)); this.currentTime = Math.floor(value)}} />
+            <View style={{alignItems: 'center'}}>
+              <TouchableOpacity onPress={() => this.checkPlay() }>
+                <TabBarIcon size={40} name={this.state.isPlaying === false ? (Platform.OS === 'ios' ? 'ios-play' : 'md-play') : (Platform.OS === 'ios' ? 'ios-pause' : 'md-pause')} style={{color: '#1874CD'}}/>
+              </TouchableOpacity>
             </View>
-            <Text>{this.timeFormat(this.state.duration)}</Text>
+            <View>
+              <Text style={styles.paragraph}>{this.timeFormat(this.state.currentTime)}</Text>
+
+              <Slider thumbTintColor={'#1874CD'} style={{marginHorizontal: '5%'}} value={this.state.currentTime} maximumValue={this.state.duration} onValueChange={value => {
+                try {
+                  this.state.classAudio.setPositionAsync(Math.floor(value));
+                  this.currentTime = Math.floor(value);
+                }
+                catch(e){
+                  console.clear(e);
+                }
+              }} />
+
+            </View>
+            <View>
+
+            </View>
+            <Text style={styles.paragraph}>{this.timeFormat(this.state.duration)}</Text>
           </View>
         </View>
       );
@@ -120,5 +162,19 @@ export default class PlayerScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  title: {
+    fontSize: 19,
+    color: '#4E443C',
+    lineHeight: 24,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  paragraph: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: '2%',
+    color: '#666',
+    paddingHorizontal: '3%'
   }
 });

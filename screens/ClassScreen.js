@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableHighlight,
   View,
   Dimensions,
   FlatList,
@@ -77,7 +76,9 @@ export default class ClassScreen extends React.Component {
     return this.state.currentClass.classes.map((item, i) => {
       return(
         <View key={i}>
-          <ListItem title={item.title} onPress={()=>navigate('Player')} rightIcon={<TabBarIcon name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
+          <ListItem title={item.title} onPress={()=>navigate('Player',{
+            uri: item.link
+          })} rightIcon={<TabBarIcon name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
           />}
           titleStyle={{fontSize:14}} bottomDivider={true} topDivider={true}/>
         </View>

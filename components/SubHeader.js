@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Image, View, StyleSheet, Platform,TouchableHighlight} from 'react-native';
+import {Text, Image, View, StyleSheet, Platform,TouchableOpacity} from 'react-native';
 import { MonoText } from './StyledText';
 import TabBarIcon from './TabBarIcon';
 import {Header} from 'react-native-elements';
@@ -16,9 +16,9 @@ export default class ThisHeader extends React.Component {
       <Header
       leftComponent={
         <View style={{paddingBottom: 20, paddingLeft: 10}} hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}>
-          <TouchableHighlight onPress={() => goBack() }>
+          <TouchableOpacity onPress={() => goBack() }>
             <TabBarIcon name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} style={{color: '#1874CD'}}/>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       }
       centerComponent={
