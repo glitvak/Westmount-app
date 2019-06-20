@@ -12,15 +12,18 @@ export default class PlayerScreen extends React.Component {
     header: null,
     TabBarVisible: false,
   };
+  _isMounted = false;
   state ={
     classAudio: null,
     duration: 0,
     currentTime: 0,
     isPlaying: false,
+    isBuffering: false,
     isLoadingComplete: false
-  }
+  };
 
   componentDidMount(){
+    this._isMounted = true;
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -32,14 +35,17 @@ export default class PlayerScreen extends React.Component {
     const soundObject = new Audio.Sound();
     try{
       soundObject.loadAsync({uri: this.props.navigation.getParam('uri','error')});
-      this.setState({
-        classAudio: soundObject,
-        duration: 0,
-        currentTime: 0,
-        isPlaying: false,
-        isLoadingComplete: false
-      })
-      soundObject.setOnPlaybackStatusUpdate(this.handlePlaybackUpdate);
+      if (this._isMounted) {
+        this.setState({
+          classAudio: soundObject,
+          duration: 0,
+          currentTime: 0,
+          isPlaying: false,
+          isBuffering: false,
+          isLoadingComplete: false
+        })
+        soundObject.setOnPlaybackStatusUpdate(this.handlePlaybackUpdate);
+      }
     }
     catch(e){
       alert('Error connecting to server.');
@@ -47,17 +53,19 @@ export default class PlayerScreen extends React.Component {
     }
   }
 
-  ComponentWillUnmount(){
-    this.state.classAudio.setStatusAsync({ shouldPlay: false, positionMillis: 0 });
+  componentWillUnmount(){
+    this._isMounted = false;
+    this.state.classAudio.stopAsync();
   }
 
   handlePlaybackUpdate = status =>{
-    if (status.isLoaded) {
+    if (status.isLoaded & this._isMounted) {
       this.setState({
         classAudio: this.state.classAudio,
         duration: status.durationMillis,
         currentTime: status.positionMillis,
         isPlaying: status.isPlaying,
+        isBuffering: status.isBuffering,
         isLoadingComplete: true
       });
     }
@@ -120,8 +128,8 @@ export default class PlayerScreen extends React.Component {
           <View>
             <Text>Testing Player Screen</Text>
             <View style={{alignItems: 'center'}}>
-              <TouchableOpacity onPress={() => this.checkPlay() }>
-                <TabBarIcon size={40} name={this.state.isPlaying === false ? (Platform.OS === 'ios' ? 'ios-play' : 'md-play') : (Platform.OS === 'ios' ? 'ios-pause' : 'md-pause')} style={{color: '#1874CD'}}/>
+              <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering ? true : false}>
+                <TabBarIcon size={40} name={this.state.isPlaying === false ? (Platform.OS === 'ios' ? 'ios-play' : 'md-play') : (Platform.OS === 'ios' ? 'ios-pause' : 'md-pause')} style={{color:'#1874CD' }}/>
               </TouchableOpacity>
             </View>
             <View>
