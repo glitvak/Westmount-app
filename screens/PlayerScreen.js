@@ -127,15 +127,21 @@ export default class PlayerScreen extends React.Component {
           <Header navigation={this.props.navigation}/>
           <View>
             <Text>Testing Player Screen</Text>
-            <View style={{alignItems: 'center'}}>
-              <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering ? true : false}>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering || this.state.isPlaying ? true : false} >
+                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-rewind' : 'md-rewind'} style={{color:'#1874CD' }}/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering ? true : false} style={{padding: '5%'}}>
                 <TabBarIcon size={40} name={this.state.isPlaying === false ? (Platform.OS === 'ios' ? 'ios-play' : 'md-play') : (Platform.OS === 'ios' ? 'ios-pause' : 'md-pause')} style={{color:'#1874CD' }}/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering || this.state.isPlaying ? true : false}>
+                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-forward' : 'md-forward'} style={{color:'#1874CD' }}/>
               </TouchableOpacity>
             </View>
             <View>
               <Text style={styles.paragraph}>{this.timeFormat(this.state.currentTime)}</Text>
 
-              <Slider thumbTintColor={'#1874CD'} style={{marginHorizontal: '5%'}} value={this.state.currentTime} maximumValue={this.state.duration} onValueChange={value => {
+              <Slider thumbTintColor={'#1874CD'} style={{marginHorizontal: '5%'}} thumbStyle={styles.thumbStyle} trackStyle={{backgroundColor: '#EBEAF1'}} value={this.state.currentTime} maximumValue={this.state.duration} onValueChange={value => {
                 try {
                   this.state.classAudio.setPositionAsync(Math.floor(value));
                   this.currentTime = Math.floor(value);
@@ -184,5 +190,10 @@ const styles = StyleSheet.create({
     marginTop: '2%',
     color: '#666',
     paddingHorizontal: '3%'
+  },
+  thumbStyle: {
+    width: 4,
+    height: 10,
+    borderRadius: 5,
   }
 });
