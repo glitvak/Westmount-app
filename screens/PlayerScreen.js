@@ -103,6 +103,15 @@ export default class PlayerScreen extends React.Component {
     }
   }
 
+  async checkSeek(seek){
+    if (seek == 'rewind') {
+      this.state.classAudio.setPositionAsync(this.state.currentTime - 15000 < 0 ? 0 : (this.state.currentTime - 15000) );
+    }
+    else {
+      this.state.classAudio.setPositionAsync(this.state.currentTime + 15000 > this.state.duration ? this.state.duration : (this.state.currentTime + 15000));
+    }
+  }
+
   timeFormat(duration) {
     if (duration == null) {
       return "00:00:00";
@@ -126,20 +135,12 @@ export default class PlayerScreen extends React.Component {
         <View style={styles.container}>
           <Header navigation={this.props.navigation}/>
           <View>
-            <Text>Testing Player Screen</Text>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering || this.state.isPlaying ? true : false} >
-                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-rewind' : 'md-rewind'} style={{color:'#1874CD' }}/>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering ? true : false} style={{padding: '5%'}}>
-                <TabBarIcon size={40} name={this.state.isPlaying === false ? (Platform.OS === 'ios' ? 'ios-play' : 'md-play') : (Platform.OS === 'ios' ? 'ios-pause' : 'md-pause')} style={{color:'#1874CD' }}/>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering || this.state.isPlaying ? true : false}>
-                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-forward' : 'md-forward'} style={{color:'#1874CD' }}/>
-              </TouchableOpacity>
-            </View>
+
+          <View>
+
+          </View>
+
             <View>
-              <Text style={styles.paragraph}>{this.timeFormat(this.state.currentTime)}</Text>
 
               <Slider thumbTintColor={'#1874CD'} style={{marginHorizontal: '5%'}} thumbStyle={styles.thumbStyle} trackStyle={{backgroundColor: '#EBEAF1'}} value={this.state.currentTime} maximumValue={this.state.duration} onValueChange={value => {
                 try {
@@ -150,12 +151,24 @@ export default class PlayerScreen extends React.Component {
                   console.clear(e);
                 }
               }} />
-
+              <View style={{flexDirection: 'row'}}>
+                <Text style={[styles.paragraph, {marginLeft: '3%', marginTop: '-3%'}]}>{this.timeFormat(this.state.currentTime)}</Text>
+                <Text style={[styles.paragraph, {marginLeft:'75%', marginTop: '-3%', position: 'absolute'}]}>{this.timeFormat(this.state.duration)}</Text>
+              </View>
             </View>
-            <View>
 
+            <View style={{flexDirection: 'row',justifyContent: 'space-around', marginTop: '5%'}}>
+              <TouchableOpacity onPress={() => this.checkSeek('rewind')} disabled={(this.state.isBuffering || this.state.isPlaying) ? false : true} >
+                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-rewind' : 'md-rewind'} style={{color:'#1874CD' }}/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering ? true : false}>
+                <TabBarIcon size={40} name={this.state.isPlaying === false ? (Platform.OS === 'ios' ? 'ios-play' : 'md-play') : (Platform.OS === 'ios' ? 'ios-pause' : 'md-pause')} style={{color:'#1874CD' }}/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.checkSeek('forward')} disabled={(this.state.isBuffering || this.state.isPlaying) ? false : true}>
+                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-fastforward' : 'md-fastforward'} style={{color:'#1874CD' }}/>
+              </TouchableOpacity>
             </View>
-            <Text style={styles.paragraph}>{this.timeFormat(this.state.duration)}</Text>
+
           </View>
         </View>
       );
