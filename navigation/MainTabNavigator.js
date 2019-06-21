@@ -92,7 +92,97 @@ const ClassesDrawer = createDrawerNavigator({
     },
     params: {
       name: 'Chasidus',
-      link: ''
+      link: 'http://westmountshul.com/online-learning/audio-archive/chasidus/'
+    }
+  },
+  Class4: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Halacha / Jewish Law'
+    },
+    params: {
+      name: 'Halacha',
+      link: 'http://westmountshul.com/online-learning/audio-archive/halacha-jewish-law/'
+    }
+  },
+  Class5: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Hashkafa / Philosophy'
+    },
+    params: {
+      name: 'Hashkafa',
+      link: 'http://westmountshul.com/online-learning/audio-archive/hashkafa-philosophy/'
+    }
+  },
+  Class6: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Holidays and Seasonal'
+    },
+    params: {
+      name: 'Holidays',
+      link: 'http://westmountshul.com/online-learning/audio-archive/holidays-and-seasonal/'
+    }
+  },
+  Class7: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Prayer'
+    },
+    params: {
+      name: 'Prayer',
+      link: 'http://westmountshul.com/online-learning/audio-archive/prayer/'
+    }
+  },
+  Class8: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Prophets and Writings'
+    },
+    params: {
+      name: 'Prophets',
+      link: 'http://westmountshul.com/online-learning/audio-archive/prophets-and-writings/'
+    }
+  },
+  Class9: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Relationships'
+    },
+    params: {
+      name: 'Rambam',
+      link: 'http://westmountshul.com/online-learning/audio-archive/relationships/'
+    }
+  },
+  Class10: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Shabbos'
+    },
+    params: {
+      name: 'Shabbos',
+      link: 'http://westmountshul.com/online-learning/audio-archive/shabbos/'
+    }
+  },
+  Class11: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Talmud'
+    },
+    params: {
+      name: 'Talmud',
+      link: 'http://westmountshul.com/online-learning/audio-archive/talmud/'
+    }
+  },
+  Class12: {
+    screen: ClassScreen,
+    navigationOptions: {
+      drawerLabel: 'Teshuva'
+    },
+    params: {
+      name: 'Teshuva',
+      link: 'http://westmountshul.com/online-learning/audio-archive/teshuva/'
     }
   }
 });
