@@ -77,7 +77,8 @@ export default class ClassScreen extends React.Component {
       return(
         <View key={i}>
           <ListItem title={item.title} onPress={()=>navigate('Player',{
-            uri: item.link
+            uri: item.link,
+            title: item.title
           })} rightIcon={<TabBarIcon name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
           />}
           titleStyle={{fontSize:14}} bottomDivider={true} topDivider={true}/>

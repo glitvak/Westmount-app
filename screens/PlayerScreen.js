@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text, ScrollView, ActivityIndicator, StyleSheet, Dimensions, Button, Platform, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView, ActivityIndicator, StyleSheet, Dimensions, Button, Platform, TouchableOpacity, Image} from 'react-native';
 import { MonoText } from '../components/StyledText';
 import Header from '../components/SubHeader';
 import { Slider } from 'react-native-elements';
 import Loading from '../components/Loading';
-import { Audio } from 'expo';
+import { Audio, Asset } from 'expo';
 import TabBarIcon from '../components/TabBarIcon';
 
 export default class PlayerScreen extends React.Component {
@@ -13,6 +13,7 @@ export default class PlayerScreen extends React.Component {
     TabBarVisible: false,
   };
   _isMounted = false;
+  _picture= null;
   state ={
     classAudio: null,
     duration: 0,
@@ -23,6 +24,7 @@ export default class PlayerScreen extends React.Component {
   };
 
   componentDidMount(){
+    Asset.loadAsync(require('../assets/images/audio_placeholder.png'));
     this._isMounted = true;
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
@@ -130,14 +132,15 @@ export default class PlayerScreen extends React.Component {
   render(){
     // <Button onPress={()=>this.play()} title={'test sound'}/>
     // <Button onPress={()=>this.stop()} title={'Stop sound'}/>
+    const title = this.props.navigation.getParam('title','N/A');
     if (this.state.isLoadingComplete) {
       return (
         <View style={styles.container}>
           <Header navigation={this.props.navigation}/>
           <View>
 
-          <View>
-
+          <View style={{backgroundColor: '#ededed', justifyContent: 'center',alignItems: 'center', paddingVertical: '5%'}}>
+            <Image source = {require('../assets/images/audio_placeholder.png')} style={{ height: 200, width: 200, borderRadius: 10}}/>
           </View>
 
             <View>
@@ -154,6 +157,9 @@ export default class PlayerScreen extends React.Component {
               <View style={{flexDirection: 'row'}}>
                 <Text style={[styles.paragraph, {marginLeft: '3%', marginTop: '-3%'}]}>{this.timeFormat(this.state.currentTime)}</Text>
                 <Text style={[styles.paragraph, {marginLeft:'75%', marginTop: '-3%', position: 'absolute'}]}>{this.timeFormat(this.state.duration)}</Text>
+              </View>
+              <View style={{paddingTop: '3%'}}>
+                <Text style={styles.title}>{title}</Text>
               </View>
             </View>
 
