@@ -165,13 +165,13 @@ export default class PlayerScreen extends React.Component {
 
             <View style={{flexDirection: 'row',justifyContent: 'space-around', marginTop: '5%'}}>
               <TouchableOpacity onPress={() => this.checkSeek('rewind')} disabled={(this.state.isBuffering || this.state.isPlaying) ? false : true} >
-                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-rewind' : 'md-rewind'} style={{color:'#1874CD' }}/>
+                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-rewind' : 'md-rewind'} style={{color:this.state.isBuffering ? '#b2d8ff' : '#1874CD' }}/>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering ? true : false}>
-                <TabBarIcon size={40} name={this.state.isPlaying === false ? (Platform.OS === 'ios' ? 'ios-play' : 'md-play') : (Platform.OS === 'ios' ? 'ios-pause' : 'md-pause')} style={{color:'#1874CD' }}/>
+                <TabBarIcon size={40} name={this.state.isPlaying === false ? (Platform.OS === 'ios' ? 'ios-play' : 'md-play') : (Platform.OS === 'ios' ? 'ios-pause' : 'md-pause')} style={{color:this.state.isBuffering ? '#b2d8ff' : '#1874CD' }}/>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.checkSeek('forward')} disabled={(this.state.isBuffering || this.state.isPlaying) ? false : true}>
-                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-fastforward' : 'md-fastforward'} style={{color:'#1874CD' }}/>
+                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-fastforward' : 'md-fastforward'} style={{color:this.state.isBuffering ? '#b2d8ff' : '#1874CD' }}/>
               </TouchableOpacity>
             </View>
 

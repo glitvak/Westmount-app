@@ -1,6 +1,5 @@
 import React from 'react';
 import { ScrollView, StyleSheet, ActivityIndicator, Dimensions, View } from 'react-native';
-import PDFView from 'react-native-view-pdf';
 import Header from '../components/MainHeader';
 const cheerio = require('react-native-cheerio');
 
@@ -37,14 +36,6 @@ export default class Bulletin extends React.Component {
     if(this.state.isLoadingComplete) {
       return (
         <View>
-        <PDFView
-          fadeInDuration={250.0}
-          style={{ flex: 1 }}
-          resource={this.state.bulletinUrl}
-          resourceType={'url'}
-          onLoad={() => console.log(`PDF rendered from`)}
-          onError={() => console.log('Cannot render PDF', error)}
-        />
         </View>
       );
     }
