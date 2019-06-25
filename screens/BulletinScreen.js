@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, ActivityIndicator, Dimensions, View } from 'react-native';
 import Header from '../components/MainHeader';
+
 const cheerio = require('react-native-cheerio');
 
 export default class Bulletin extends React.Component {
