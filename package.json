@@ -23,11 +23,10 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-cheerio": "^1.0.0-rc.4",
     "react-native-elements": "^1.1.0",
-    "react-native-fetch-blob": "^0.10.8",
     "react-native-git-upgrade": "^0.2.7",
-    "react-native-pdf": "^5.1.0",
     "react-native-sound-player": "^0.9.0",
-    "react-native-view-pdf": "^0.8.3",
+    "react-native-view-pdf": "^0.8.6",
+    "react-native-webview": "^5.12.1",
     "react-navigation": "^3.0.9",
     "rn-fetch-blob": "^0.10.15"
   },

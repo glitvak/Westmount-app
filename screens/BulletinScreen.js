@@ -1,7 +1,8 @@
 import React from 'react';
 import { ScrollView, StyleSheet, ActivityIndicator, Dimensions, View } from 'react-native';
+import {Button} from 'react-native-elements';
 import Header from '../components/MainHeader';
-
+import { WebBrowser } from 'expo';
 const cheerio = require('react-native-cheerio');
 
 export default class Bulletin extends React.Component {
@@ -33,10 +34,20 @@ export default class Bulletin extends React.Component {
     this.getUrl();
   }
 
+  _handlePressButtonAsync = ()=>{
+
+  }
+
   render() {
+    const source = {uri:this.state.bulletinUrl,cache:true};
     if(this.state.isLoadingComplete) {
       return (
-        <View>
+        <View style={styles.conatiner}>
+        <Button
+          style={styles.paragraph}
+          title={"Open Bulletin"}
+          onPress={() => WebBrowser.openBrowserAsync(this.state.bulletinUrl)}
+        />
         </View>
       );
     }
