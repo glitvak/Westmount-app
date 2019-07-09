@@ -169,7 +169,7 @@ export default class ClassScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: '13%'
+    paddingBottom: "15%" //13%
   },
   contentContainer: {
     flex: 1,

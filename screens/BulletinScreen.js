@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, ActivityIndicator, Dimensions, View } from 'react-native';
+import { Text, ScrollView, StyleSheet, ActivityIndicator, Dimensions, View } from 'react-native';
 import {Button} from 'react-native-elements';
 import Header from '../components/MainHeader';
 import { WebBrowser } from 'expo';
@@ -33,16 +33,13 @@ export default class Bulletin extends React.Component {
   componentDidMount = () =>{
     this.getUrl();
   }
-
-  _handlePressButtonAsync = ()=>{
-
-  }
-
   render() {
     const source = {uri:this.state.bulletinUrl,cache:true};
     if(this.state.isLoadingComplete) {
       return (
         <View style={styles.conatiner}>
+        <Text style={styles.title}>This Weeks Bulletin</Text>
+        <Text style={styles.paragraph}>Updated every Thursday</Text>
         <Button
           style={styles.paragraph}
           title={"Open Bulletin"}
@@ -69,8 +66,18 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#fff',
   },
-  pdf: {
-    flex: 1,
-    width: Dimensions.get('window').width
+  title: {
+    fontSize: 19,
+    color: '#4E443C',
+    lineHeight: 24,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  paragraph: {
+    fontSize: 14,
+    marginTop: '2%',
+    color: '#666',
+    paddingHorizontal: '3%',
+    textAlign: 'center'
   }
 });

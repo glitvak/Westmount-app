@@ -2,7 +2,7 @@
   "name": "WestMountApp",
   "displayName": "Westmount Shul",
   "expo": {
-    "name": "WestmountShul",
+    "name": "Westmount Shul",
     "slug": "app",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -12,7 +12,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.jpg",
+    "icon": "./assets/images/icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -27,6 +27,9 @@
     "ios": {
       "bundleIdentifier": "com.yourcompany.yourappname",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "westmountShul.app"
     }
   }
 }

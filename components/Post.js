@@ -13,12 +13,13 @@ export default class Post extends React.Component {
   static navigationOptions = {
     header: null,
   };
+  /*"5% 10%"*/
   render(){
     let postData = this.props.postData;
     const {navigate} = this.props.navigation;
     return (
       <View style = {styles.card}>
-        <View style = {{padding: '5% 10%'}}>
+        <View style = {{paddingVertical:'5%', paddingHorizontal: '10%'}}>
           <Text adjustsFontSizeToFit={true} style={styles.headLine}> {postData.title} </Text>
           <View style={{justifyContent: 'center',alignItems: 'center'}}>
             <Image source = {{uri: postData.image}} style={{width: 150, height: 150}}/>
