@@ -13,7 +13,6 @@ import {
   Dimensions,
   FlatList,
 } from 'react-native';
-import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import Post from '../components/Post'
 import Header from '../components/MainHeader';
@@ -28,10 +27,10 @@ class Posts extends Component {
     isLoadingComplete: false,
   };
   getPost = async () => {
-    const resp = await fetch('http://westmountshul.com/news/');
-    //_bodyInit to get the data back in html.
-    try{
-      const $ = cheerio.load(resp._bodyInit);
+    await fetch('http://westmountshul.com/news/')
+    .then(response => response.text())
+    .then(body => {
+      const $ = cheerio.load(body);
       let tempPost = [];
       $('.post').each((i,post) => {
         tempPost.push({
@@ -40,18 +39,15 @@ class Posts extends Component {
           image: $(post).find('img').attr('src'),
           desc: $(post).find('p').text().replace(/\s\s+/g, '').trim()
         });
-
       });
-
       this.setState({
         blogPost: tempPost,
         isLoadingComplete: true
       });
-      //
-    }
-    catch (e) {
+    })
+    .catch(e=>{
       alert('No internet Connection Found!');
-    }
+    })
   }//END OF DATA FUNCTION
 
   componentDidMount = () => {
@@ -62,7 +58,8 @@ class Posts extends Component {
     if (this.state.isLoadingComplete) {
       return (
         <View style={styles.container}>
-          <FlatList data={this.state.blogPost} renderItem={(post) => <Post postData={post.item} navigation={this.props.navigation}/>} keyExtractor={(item, index)=>index.toString()}  ItemSeparatorComponent={()=><View style={{height:0.5,backgroundColor:'#E5E5E5'}}/>}/>
+          <FlatList data={this.state.blogPost} renderItem={(post) => <Post postData={post.item}
+           navigation={this.props.navigation}/>} keyExtractor={(item, index)=>index.toString()}  ItemSeparatorComponent={()=><View style={{height:0.5,backgroundColor:'#E5E5E5'}}/>}/>
         </View>
       );
     }

@@ -16,18 +16,19 @@ export default class Bulletin extends React.Component {
   };
 
   getUrl = async () =>{
-    const resp = await fetch('http://westmountshul.com/');
-    try{
-      const $ = cheerio.load(resp._bodyInit);
+    await fetch('http://westmountshul.com/')
+    .then(response => response.text())
+    .then(data => {
+      const $ = cheerio.load(data);
       this.setState({
         bulletinUrl: $('.t4p-one-half').find('a').attr('href'),
         isLoadingComplete: true
       });
-    }
-    catch(e){
-      console.log(e);
+    })
+    .catch(e=>{
       alert('Error: Cannot connect to server!');
-    }
+      console.log(e);
+    })
   }
 
   componentDidMount = () =>{

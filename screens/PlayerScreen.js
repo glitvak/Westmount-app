@@ -4,7 +4,8 @@ import { MonoText } from '../components/StyledText';
 import Header from '../components/SubHeader';
 import { Slider } from 'react-native-elements';
 import Loading from '../components/Loading';
-import { Audio, Asset } from 'expo';
+import { Asset } from 'expo-asset';
+import {Audio} from 'expo-av';
 import TabBarIcon from '../components/TabBarIcon';
 
 export default class PlayerScreen extends React.Component {
@@ -33,6 +34,7 @@ export default class PlayerScreen extends React.Component {
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: false,
+      staysActiveInBackground: false
     });
     const soundObject = new Audio.Sound();
     try{

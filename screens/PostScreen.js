@@ -27,9 +27,10 @@ export default class PostScreen extends React.Component {
     isLoadingComplete: false,
   };
   getPostData = async (data) => {
-    const resp = await fetch(data);
-    try {
-      const $ = cheerio.load(resp._bodyInit);
+    await fetch(data)
+    .then(data => data.text())
+    .then(data => {
+      const $ = cheerio.load(data);
       $('p.wp-caption-text').remove();
       $('p a').remove();
       const tempPost = {};
@@ -52,11 +53,11 @@ export default class PostScreen extends React.Component {
         post: tempPost,
         isLoadingComplete: true
       });
-    }
-    catch(e){
-      console.log(e);
+    })
+    .catch(e =>{
       alert('Error Connecting to Data!');
-    }
+      console.log(e);
+    });
   }
 
   componentDidMount = () => {
@@ -100,6 +101,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlign: 'center',
     fontWeight: 'bold',
+    paddingHorizontal: '5%'
   },
   paragraph: {
     fontSize: 14,

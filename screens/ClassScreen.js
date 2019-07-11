@@ -30,9 +30,10 @@ export default class ClassScreen extends React.Component {
 
   getClassList = async() =>{
     let link = this.props.navigation.getParam('link', 'error');
-    const resp = await fetch(link);
-    try{
-      const $ = cheerio.load(resp._bodyInit);
+    await fetch(link)
+    .then(response => response.text())
+    .then(data => {
+      const $ = cheerio.load(data);
       let tempClass = [];
       $('.ccchildpage').each((i,post) => {
         tempClass.push({
@@ -46,11 +47,11 @@ export default class ClassScreen extends React.Component {
         currentClass: this.state.currentClass,
         isLoadingComplete: true
       });
-    }
-    catch(e){
+    })
+    .catch(e=>{
       console.log(e);
       alert('Error: Cannot connect to server!');
-    }
+    });
   }
 
   componentDidMount(){
@@ -88,10 +89,11 @@ export default class ClassScreen extends React.Component {
   }
 
   loadClass = async(link)=>{
-    const resp = await fetch(link);
-    try{
+    await fetch(link)
+    .then(response => response.text())
+    .then(data => {
       let thisClass = {};
-      var $ = cheerio.load(resp._bodyInit);
+      var $ = cheerio.load(data);
       thisClass.title = $('h1.entry-title').text().replace(/\s\s+/g, '').trim();
       thisClass.desc = $('span.tablepress-table-description').text().replace(/\s\s+/g, '').trim();
       thisClass.classes = [];
@@ -110,11 +112,11 @@ export default class ClassScreen extends React.Component {
         currentClass: thisClass,
         isLoadingComplete: true
       });
-    }
-    catch(e){
+    })
+    .catch(e=>{
       console.log(e);
       alert('Error connecting to server!');
-    }
+    });
   }
 
   render() {

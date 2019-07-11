@@ -4,7 +4,7 @@ import Header from '../components/MainHeader';
 import Loading from '../components/Loading';
 const cheerio = require('react-native-cheerio');
 import { MonoText } from '../components/StyledText';
-import { MapView } from 'expo';
+import MapView from 'react-native-maps';
 const window = Dimensions.get('window');
 const { width, height }  = window
 const LATITUDE_DELTA = 0.0022
@@ -30,9 +30,10 @@ export default class ContactScreen extends React.Component {
   };
 
   loadInfo = async () => {
-    const resp = await fetch('http://westmountshul.com/');
-    try {
-      const $ = cheerio.load(resp._bodyInit);
+    await fetch('http://westmountshul.com/')
+    .then(response => response.text())
+    .then(data => {
+      const $ = cheerio.load(data);
       let contactData = this.dataScrape($,'#text-3');
       let minyanData = this.dataScrape($,'#text-6');
       this.setState({
@@ -48,12 +49,11 @@ export default class ContactScreen extends React.Component {
         },
         isLoadingComplete: true
       });
-
-    }
-    catch(e){
+    })
+    .catch(e =>{
       console.log(e);
       alert('Error connecting to server.');
-    }
+    });
   }
 
   dataScrape = ($,id) => {
