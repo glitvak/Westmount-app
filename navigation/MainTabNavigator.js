@@ -10,6 +10,7 @@ import ClassesScreen from '../screens/ClassesScreen';
 import ClassScreen from '../screens/ClassScreen';
 import PostScreen from '../screens/PostScreen';
 import PlayerScreen from '../screens/PlayerScreen';
+import DownloadScreen from '../screens/DownloadScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -183,6 +184,12 @@ const ClassesDrawer = createDrawerNavigator({
     params: {
       name: 'Teshuva',
       link: 'http://westmountshul.com/online-learning/audio-archive/teshuva/'
+    }
+  },
+  Downloads: {
+    screen: DownloadScreen,
+    navigationOptions: {
+      drawerLabel: 'Downloads'
     }
   }
 });

@@ -6,6 +6,7 @@ import { Slider } from 'react-native-elements';
 import Loading from '../components/Loading';
 import { Asset } from 'expo-asset';
 import {Audio} from 'expo-av';
+import * as FileSystem from 'expo-file-system';
 import TabBarIcon from '../components/TabBarIcon';
 
 export default class PlayerScreen extends React.Component {
@@ -21,11 +22,11 @@ export default class PlayerScreen extends React.Component {
     currentTime: 0,
     isPlaying: false,
     isBuffering: false,
+    isDownloading: false,
     isLoadingComplete: false
   };
 
   componentDidMount(){
-    Asset.loadAsync(require('../assets/images/audio_placeholder.png'));
     this._isMounted = true;
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
@@ -46,9 +47,21 @@ export default class PlayerScreen extends React.Component {
           currentTime: 0,
           isPlaying: false,
           isBuffering: false,
+          isDownloading: false,
           isLoadingComplete: false
         })
         soundObject.setOnPlaybackStatusUpdate(this.handlePlaybackUpdate);
+      }
+      if(FileSystem.getInfoAsync(FileSystem.documentDirectory+'/downloads/'+this.props.navigation.getParam('title','N/A').replace(/ /g,'') + '.mp3').exists){
+        this.setState({
+          classAudio: soundObject,
+          duration: 0,
+          currentTime: 0,
+          isPlaying: false,
+          isBuffering: false,
+          isDownloading: true,
+          isLoadingComplete: false
+        })
       }
     }
     catch(e){
@@ -70,6 +83,7 @@ export default class PlayerScreen extends React.Component {
         currentTime: status.positionMillis,
         isPlaying: status.isPlaying,
         isBuffering: status.isBuffering,
+        isDownloading: this.state.isDownloading,
         isLoadingComplete: true
       });
     }
@@ -116,6 +130,33 @@ export default class PlayerScreen extends React.Component {
     }
   }
 
+  async download(title){
+    // console.log(FileSystem.documentDirectory);
+    this.setState({
+      classAudio: this.state.classAudio,
+      duration: this.state.duration,
+      currentTime: this.state.currentTime,
+      isPlaying: this.state.isPlaying,
+      isBuffering: this.state.isBuffering,
+      isDownloading: true,
+      isLoadingComplete: true
+    });
+    if (FileSystem.getInfoAsync(FileSystem.documentDirectory + 'downloads').exists) {
+      console.log('exists')
+    }
+    else{
+      FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'downloads');
+    }
+
+    FileSystem.downloadAsync(this.props.navigation.getParam('uri','error'), FileSystem.documentDirectory + '/downloads/'+ title.replace(/ /g,'') + '.mp3')
+    .then(({ uri }) => {
+      alert('Download finished');
+    })
+    .catch(error => {
+      alert('Error in downloading class.');
+    });
+  }
+
   timeFormat(duration) {
     if (duration == null) {
       return "00:00:00";
@@ -131,19 +172,28 @@ export default class PlayerScreen extends React.Component {
     return hours + ":" + minutes + ":" + seconds;
   }
 
+  checkDownload(title){
+    if (this.state.isDownloading) {
+      return true;
+    }
+    else if(FileSystem.getInfoAsync(FileSystem.documentDirectory + '/downloads/' + title.replace(/ /g,'') + '.mp3').exists){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   render(){
-    // <Button onPress={()=>this.play()} title={'test sound'}/>
-    // <Button onPress={()=>this.stop()} title={'Stop sound'}/>
     const title = this.props.navigation.getParam('title','N/A');
     if (this.state.isLoadingComplete) {
       return (
         <View style={styles.container}>
           <Header navigation={this.props.navigation}/>
           <View>
-
-          <View style={{backgroundColor: '#ededed', justifyContent: 'center',alignItems: 'center', paddingVertical: '5%'}}>
-            <Image source = {require('../assets/images/audio_placeholder.png')} style={{ height: 200, width: 200, borderRadius: 10}}/>
-          </View>
+            <View style={{backgroundColor: '#ededed', justifyContent: 'center',alignItems: 'center', paddingVertical: '5%'}}>
+              <Image source = {require('../assets/images/audio_placeholder.png')} style={{ height: 200, width: 200, borderRadius: 10}}/>
+            </View>
 
             <View>
 
@@ -166,12 +216,19 @@ export default class PlayerScreen extends React.Component {
             </View>
 
             <View style={{flexDirection: 'row',justifyContent: 'space-around', marginTop: '5%'}}>
+
               <TouchableOpacity onPress={() => this.checkSeek('rewind')} disabled={(this.state.isBuffering || this.state.isPlaying) ? false : true} >
                 <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-rewind' : 'md-rewind'} style={{color:this.state.isBuffering ? '#b2d8ff' : '#1874CD' }}/>
               </TouchableOpacity>
+
               <TouchableOpacity onPress={() => this.checkPlay()} disabled={this.state.isBuffering ? true : false}>
                 <TabBarIcon size={40} name={this.state.isPlaying === false ? (Platform.OS === 'ios' ? 'ios-play' : 'md-play') : (Platform.OS === 'ios' ? 'ios-pause' : 'md-pause')} style={{color:this.state.isBuffering ? '#b2d8ff' : '#1874CD' }}/>
               </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => this.download(title)} disabled={this.checkDownload()}>
+                <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-download' : 'md-download'} style={{color:this.state.isDownloading ? '#b2d8ff' : '#1874CD' }}/>
+              </TouchableOpacity>
+
               <TouchableOpacity onPress={() => this.checkSeek('forward')} disabled={(this.state.isBuffering || this.state.isPlaying) ? false : true}>
                 <TabBarIcon size={40} name={Platform.OS === 'ios' ? 'ios-fastforward' : 'md-fastforward'} style={{color:this.state.isBuffering ? '#b2d8ff' : '#1874CD' }}/>
               </TouchableOpacity>
